@@ -1,11 +1,15 @@
 package com.demo.student.service.Impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -25,6 +29,12 @@ public class SchoolServiceImpl implements SchoolService {
 
 	@Autowired
 	RestTemplate restTemplate;
+	
+	String GET_STU_URL = "http://student-service";
+	//String GET_STU_URL = "http://localhost:9098";
+	
+	@Value("${studentservice.application.name}")
+	//private String GET_STU_URL;
 
 	@Override
 	public List<Student> getAllStudent() {
@@ -33,23 +43,44 @@ public class SchoolServiceImpl implements SchoolService {
 	}
 
 	@Override
-	public String getStudent(Long studentId){
-	
-		System.err.println("Consul Demo - Getting School details for " + studentId);
-        String URL = "http://student-service/getStudentDetail/{studentId}";
-        System.err.println("Response Received as "+URL);
-        String response = restTemplate.exchange(URL, HttpMethod.GET, null, new ParameterizedTypeReference<String>() {}, studentId).getBody();
-        System.err.println("Response Received as ");
+	public Student getStudent(Long studentId){
+        //String URL = "http://student-service/getStudentDetail/{studentId}";
+		String URL = GET_STU_URL+"/getStudentDetail/"+studentId;
+        //String response = restTemplate.exchange(URL, HttpMethod.GET, null, new ParameterizedTypeReference<String>() {}, studentId).getBody();
+       
 
-        return "School Name -  " + studentId + " :::  Student Details "+response ;
+        Student student = restTemplate.getForObject(URL,Student.class);
+        
+        
+        
+        return student ;
 	}
 
 	@Override
 	public void createStudent(@Valid Student student) {
 		// TODO Auto-generated method stub
+		String URL = GET_STU_URL+"/createStudent";
 		System.err.println("client1 >>>"+student.getClassName());
-		restTemplate.exchange("http://student-service/createStudent/{student}", HttpMethod.POST, null, new ParameterizedTypeReference<String>() {
-		},student).getBody();
+		restTemplate.postForObject(URL, student, Student.class);
+	}
+	
+	@Override
+	public Student findByStudentId(@Valid Long studentId) {
+		// TODO Auto-generated method stub
+		String URL = GET_STU_URL+"/getStudentDetail/"+studentId;
+		Student student = restTemplate.getForObject(URL,Student.class);
+		return student;
+	}
+
+	@Override
+	public void studentUpdate(@Valid Student student) {
+		// TODO Auto-generated method stub
+		System.err.println(">>>>>>>fdfdf>>>>>>>>>"+student.getClassName());
+		Map < String, String > params = new HashMap < String, String > ();
+        params.put("id", "1");
+		String URL = GET_STU_URL+"/updateStudent";
+		//Student student1 = restTemplate.exchange(URL, HttpMethod.PUT, student, Student.class);
+		restTemplate.put(URL, student, params);
 	}
 	
 	@Bean
@@ -57,5 +88,7 @@ public class SchoolServiceImpl implements SchoolService {
 	public RestTemplate restTemplate() {
 		return new RestTemplate();
 	}
+
+	
 	
 }

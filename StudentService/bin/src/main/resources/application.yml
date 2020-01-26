@@ -1,0 +1,43 @@
+
+
+server:
+  port: 8098    #default port where the service will be started
+ 
+eureka:         #tells about the Eureka server details and its refresh time
+  instance:
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:8761/eureka/
+    healthcheck:
+      enabled: true
+    lease:
+      duration: 5
+
+#you can write in properties file
+spring:    
+  application:
+    name: student-service   #current service name to be used by the eureka server
+ 
+logging:
+  level:
+    com.example.howtodoinjava: DEBUG
+    
+    # ===============================
+# DATASOURCE
+# ===============================
+#    datasource:
+#      url=jdbc:mysql://localhost:3306/testfdfdfd
+#      username= root
+#      password= root
+
+# ===============================
+# JPA / HIBERNATE
+# ===============================
+# Hibernate ddl auto (create, create-drop, validate, update)
+
+#    jpa:
+#      properties:hibernate:dialect = org.hibernate.dialect.MySQL5InnoDBDialect
+#      hibernate:ddl-auto=update
+            

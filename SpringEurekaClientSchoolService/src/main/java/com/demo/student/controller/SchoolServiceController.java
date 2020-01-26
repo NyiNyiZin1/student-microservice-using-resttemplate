@@ -5,10 +5,12 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,23 +37,34 @@ public class SchoolServiceController {
 	 */
 	
 	@Autowired
-	SchoolService schoolService;
+	SchoolService studentService;
 	
 	@GetMapping(value = "/getStudentDetail/{studentId}")
-	public String getStudent(@PathVariable Long studentId) {
-		
-		String student = schoolService.getStudent(studentId);
-		return student;
-		
+	public ResponseEntity<Student> getStudent(@PathVariable Long studentId) {
+		System.err.println("controller"+studentId);
+//		Student student = schoolService.getStudent(studentId);
+//		return student;
+		return new ResponseEntity<Student>(studentService.getStudent(studentId),HttpStatus.OK);
 	}
 	
 	//create holiday
 		@PostMapping(value = "/createStudent")
-	    public String createStudent(@RequestBody Student student) throws Exception{
-			
-			schoolService.createStudent(student);
-	        return "Create Success...";
+	    public ResponseEntity<String> createStudent(@RequestBody Student student) throws Exception{
+			System.err.println("a>>>"+student.getClassName());
+			studentService.createStudent(student);
+	        return new ResponseEntity<String>("Student Create Success...",HttpStatus.CREATED);
 	    }
-
-	
+		
+		@PutMapping(value = "/updateStudent/{studentId}")
+		public ResponseEntity<String> updateStudent(@PathVariable Long studentId,@RequestBody Student student){
+			
+			/*if(studentService.getStudent(studentId) == null) {
+				System.err.println("a>>>>>>>>>>>>>>>>"+studentId);
+				return new ResponseEntity<String>("Student Not Found...",HttpStatus.NOT_FOUND);
+			}else {*/
+				System.err.println("ab>>>>>>>>>>>>>>>>"+studentId);
+			studentService.studentUpdate(student);
+			return new ResponseEntity<String>("Update Student...",HttpStatus.OK);
+//			/}
+		}
 }

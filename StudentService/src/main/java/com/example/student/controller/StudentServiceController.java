@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -74,17 +76,22 @@ public class StudentServiceController {
     }
     
     @GetMapping("/getStudentDetail/{studentId}")
-    public String getStudent(@PathVariable Long studentId) {
+    public Student getStudent(@PathVariable Long studentId) {
     	System.err.println("service Id>>>>>"+studentId);
     	return studentService.getStudent(studentId);
     	
     }
     
-    @PostMapping("/createStudent/{student}")
-    public void createStudent(@PathParam(value = "student") Student student) {
+    @PostMapping("/createStudent")
+    public void createStudent(@RequestBody Student student) {
     	System.err.println("server1 >>>"+student.getClassName());
     	studentService.createStudent(student);
     	
+    }
+    
+    @PutMapping("/updateStudent")
+    public void updateStudent(@RequestBody Student student) {
+    	studentService.studentUpdate(student);
     }
     
 }

@@ -8,8 +8,8 @@ import com.example.student.entity.Student;
 
 public interface StudentService {
 	
-	String getStudent(@Valid Long studentId);
+	Student getStudent(@Valid Long studentId);
 	List<Student> getAllStudent();
-	void createStudent(Student student);
-
+	void createStudent(@Valid Student student);
+	void studentUpdate(Student student);
 }

@@ -19,10 +19,10 @@ public class StudentServiceImpl implements StudentService{
 	StudentRepository studentRepo;
 
 	@Override
-	public String getStudent(Long studentId) {
-		System.err.println("inservice impl>>>"+studentId);
-		return studentRepo.getOne(studentId).toString();
-	}
+	public Student getStudent(Long studentId) {
+		System.err.println("inservice impll>>>"+studentId);
+		return studentRepo.getOne(studentId);
+		}
 
 	@Override
 	public List<Student> getAllStudent() {
@@ -36,4 +36,15 @@ public class StudentServiceImpl implements StudentService{
 		studentRepo.save(student);
 	}
 
-}
+	@Override
+	public void studentUpdate(Student student) {
+		// TODO Auto-generated method stub
+		Student student1 = studentRepo.getOne(student.getId());
+		student1.setClassName(student.getClassName());
+		student1.setName(student.getName());
+		studentRepo.saveAndFlush(student1);
+		}
+		
+	}
+
+

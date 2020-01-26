@@ -11,7 +11,9 @@ import com.demo.student.entity.Student;
 
 public interface SchoolService {
 	
-	String getStudent(@Valid Long studentId);
+	Student getStudent(@Valid Long studentId);
 	List<Student> getAllStudent();
 	void createStudent(Student student);
+	Student findByStudentId(@Valid Long studentId);
+	void studentUpdate(Student student);
 }
