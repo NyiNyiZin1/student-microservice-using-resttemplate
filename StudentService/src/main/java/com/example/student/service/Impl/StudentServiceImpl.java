@@ -44,6 +44,12 @@ public class StudentServiceImpl implements StudentService{
 		student1.setName(student.getName());
 		studentRepo.saveAndFlush(student1);
 		}
+
+	@Override
+	public void deleteStudent(Long id) {
+		// TODO Auto-generated method stub
+		studentRepo.deleteById(id);
+	}
 		
 	}
 

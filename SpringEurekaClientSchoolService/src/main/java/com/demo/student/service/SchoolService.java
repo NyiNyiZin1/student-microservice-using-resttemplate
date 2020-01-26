@@ -16,4 +16,5 @@ public interface SchoolService {
 	void createStudent(Student student);
 	Student findByStudentId(@Valid Long studentId);
 	void studentUpdate(Student student);
+	void deleteStudent(@Valid Long id);
 }

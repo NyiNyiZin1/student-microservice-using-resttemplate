@@ -7,6 +7,7 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +27,7 @@ public class SchoolServiceController {
 	 * @Autowired RestTemplate restTemplate;
 	 * 
 	 * @RequestMapping(value = "/getSchoolDetails/{schoolname}", method =
-	 * RequestMethod.GET) public String getStudents(@PathVariable String schoolname)
+	 * RequestMethod.GET) public String getStudents(@d String schoolname)
 	 * {
 	 * 
 	 * String response = restTemplate.exchange(
@@ -66,5 +67,11 @@ public class SchoolServiceController {
 			studentService.studentUpdate(student);
 			return new ResponseEntity<String>("Update Student...",HttpStatus.OK);
 //			/}
+		}
+		
+		@DeleteMapping(value = "/deleteStudent/{studentId}")
+		public ResponseEntity<String> deleteStudent(@PathVariable Long studentId) {
+			studentService.deleteStudent(studentId);
+			return new ResponseEntity<String>("Delete Success...",HttpStatus.OK);
 		}
 }

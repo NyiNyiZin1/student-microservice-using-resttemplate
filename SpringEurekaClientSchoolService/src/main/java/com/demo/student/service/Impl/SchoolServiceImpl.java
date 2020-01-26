@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
 
 import com.demo.student.entity.Student;
+import com.demo.student.repositories.StudentRepository;
 import com.demo.student.service.SchoolService;
 
 @Service
@@ -87,6 +88,13 @@ public class SchoolServiceImpl implements SchoolService {
 	@LoadBalanced
 	public RestTemplate restTemplate() {
 		return new RestTemplate();
+	}
+
+	@Override
+	public void deleteStudent(@Valid Long id) {
+		// TODO Auto-generated method stub
+		String URL = GET_STU_URL+"/deleteStudent/"+id;
+		restTemplate.delete(URL,Student.class);
 	}
 
 	
